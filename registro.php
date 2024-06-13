@@ -1,7 +1,7 @@
 <?php
-include("conexion.php");
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
+    include("conexion.php");
     $errores= array();
 
    
@@ -56,7 +56,10 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         $pdo=new PDO('mysql:host='.$direccionservidor.';dbname='.$baseDatos,$usuarioBD,$contraseniaBD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);//para que PDO maneje errores de forma automatica
 
-        $sql = "INSERT INTO `usuarios` (`id`, `nombres`, `apellidos`, `email`, `password`, `genero`, `curso`) 
+        $nuevoPassword=password_hash($password,PASSWORD_DEFAULT);
+       
+       
+       $sql = "INSERT INTO `usuarios` (`id`, `nombres`, `apellidos`, `email`, `password`, `genero`, `curso`) 
         VALUES (NULL,:nombres,:apellidos,:email,:password,:genero,:curso);";
 
         $resultado=$pdo->prepare($sql);
@@ -64,7 +67,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
             ':nombres'=>$nombres,
             ':apellidos'=>$apellidos,
             ':email'=>$email,
-            ':password'=>$password,
+            ':password'=>$nuevoPassword,
             ':genero'=>$genero,
             ':curso'=>$curso
         ));
