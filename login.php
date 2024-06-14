@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
     include("conexion.php");
@@ -35,7 +35,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
             foreach($usuarios as $user){
                 if(password_verify($password, $user['password'])){
-                    //$_SESSION['loggedUser']=$user;
+                   $_SESSION['usuario_id']=$user['id'];
+                   $_SESSION['usuario_nombre']=$user['nombres']." ".$user['apellidos'];
                     $login = true;
                 }
             }
